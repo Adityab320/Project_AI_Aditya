@@ -3,7 +3,7 @@ package com.example.ai_mad_numgame;
    App will show your last performance at the start of the activity. New Tournament will start from
    all performance set to -1 again. And your new performance will be visible, when you return back to game
  */
-import  androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         int[][]dataFrame=dataPrep(); //dataPrep function returns a two-dimenssional array
         double slope=LR.getSlope(dataFrame); //LR class, which provides slope on invoking getSlope
         new AlertDialog.Builder(this)
-               // .setIcon() //your custom icon
+                // .setIcon() //your custom icon
                 .setTitle("Performance")
 
                 .setMessage(getInterpretation(dataFrame,slope))
@@ -77,13 +77,13 @@ public class MainActivity extends AppCompatActivity {
         correctButton=random.nextInt(4);
 
 
-        //check is operand2 is not zero; otherwise in case of division-divide by zero error will come
 
+
+        //check is operand2 is not zero; otherwise in case of division-divide by zero error will come
         String operator = operators[random.nextInt(4)];
         textView2.setText(operand1 + operator + operand2);
 
-      // Your code here, to display correct and incorrect options on the buttons
-
+        // Your code here, to diplay correct and incorrect options on the buttons
         if (operator.equals("+"))
             correct= operand1+ operand2;
         else if (operator.equals("-"))
@@ -122,6 +122,7 @@ public class MainActivity extends AppCompatActivity {
             button4.setText(correct + "");
         }
 
+
         if(matchCounter==3){    // if three matches are completed updatee the perfomrance in sharedpreferences
 
             matchCounter=0;
@@ -138,7 +139,12 @@ public class MainActivity extends AppCompatActivity {
     public int sumOfScore(){
         //Computing the sum of score array, which has the 1 or in each index,depending on correct or incorrect answers
         int sum=0;
-       // your code here
+
+        for(int i = 0; i < score.length; i++)
+        {
+            sum += score[i];
+        }
+        // your code here
         return sum;
     }
 
@@ -156,8 +162,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public String getInterpretation(int [][]dataFrame,double slope){
-       //provide interpretation based on your slope analysis
-        // Your code here
-        return "Your Interpretation";
+        //provide interpretation based on your slope analysis
+        double myslope= LR.getSlope(dataFrame);
+        if(myslope>0 && myslope<0.5)
+            return "You are slow learner";
+        else if(myslope<0 )
+            return " You are an unlearner";
+        else
+            return "You are a good learner";
     }
 }
